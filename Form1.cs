@@ -1,21 +1,4 @@
 using Microsoft.Extensions.Configuration;
-using Postgrest.Attributes;
-using Postgrest.Models;
-
-[Table("cities")]
-class City : BaseModel {
-    [PrimaryKey("lrn_id")]
-    public string? LrnId { get; set; }
-
-    [Column("name")]
-    public string? Name { get; set; }
-
-    [Column("section")]
-    public string? Section { get; set; }
-
-    [Column("tardy_datetimes")]
-    public DateTime[]? TardyDatetimeList { get; set; }
-}
 
 namespace TardyQuery {
 
