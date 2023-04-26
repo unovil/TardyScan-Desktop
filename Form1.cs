@@ -1,4 +1,8 @@
 using Microsoft.Extensions.Configuration;
+using Microsoft.VisualBasic.Devices;
+using Supabase.Interfaces;
+using static Postgrest.Constants;
+using TardyQuery.Models;
 
 namespace TardyQuery {
 
@@ -7,8 +11,9 @@ namespace TardyQuery {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e) {
-            Task supabaseClient = SupabaseInit();
+        Supabase.Client supabase;
+        private void FormSearch_Load(object sender, EventArgs e) {
+            Task supabaseInit = SupabaseInit();
         }
 
         private async Task SupabaseInit() {
@@ -22,15 +27,11 @@ namespace TardyQuery {
                 AutoConnectRealtime = true
             };
 
-            var supabase = new Supabase.Client(url, key, options);
+            supabase = new Supabase.Client(url, key, options);
             await supabase.InitializeAsync();
         }
 
-        private void FormSearch_Load(object sender, EventArgs e) {
-
-        }
-
-        private void recordSearch(object sender, EventArgs e) {
+        private async void recordSearch(object sender, EventArgs e) {
             if (string.IsNullOrWhiteSpace(comboBoxOptions.Text)) {
                 MessageBox.Show("Search category is empty!");
                 return;
@@ -42,6 +43,11 @@ namespace TardyQuery {
             string searchCategory = comboBoxOptions.Text;
             string searchTerm = txtBoxName.Text;
 
+            var result = await supabase
+              .From<Students>()
+              .Select(x => new object[] { x.TardyDatetimeList })
+              .Filter(x => x.Name, Operator.Contains, searchTerm)
+              .Get();
         }
     }
 }
