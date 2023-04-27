@@ -36,6 +36,7 @@
             label4 = new Label();
             label5 = new Label();
             btnSearch = new Button();
+            labelSearchOutcome = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -170,11 +171,21 @@
             btnSearch.UseVisualStyleBackColor = true;
             btnSearch.Click += recordSearch;
             // 
+            // labelSearchOutcome
+            // 
+            labelSearchOutcome.AutoSize = true;
+            labelSearchOutcome.Location = new Point(235, 112);
+            labelSearchOutcome.Name = "labelSearchOutcome";
+            labelSearchOutcome.Size = new Size(0, 20);
+            labelSearchOutcome.TabIndex = 12;
+            labelSearchOutcome.Visible = false;
+            // 
             // FormSearch
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(914, 600);
+            Controls.Add(labelSearchOutcome);
             Controls.Add(btnSearch);
             Controls.Add(label5);
             Controls.Add(label4);
@@ -211,5 +222,6 @@
         private Label label4;
         private Label label5;
         private Button btnSearch;
+        private Label labelSearchOutcome;
     }
 }
