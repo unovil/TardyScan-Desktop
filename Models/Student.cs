@@ -3,7 +3,7 @@ using Postgrest.Models;
 
 namespace TardyQuery.Models {
     [Table("debugStudents")]
-    class Students : BaseModel {
+    class Student : BaseModel {
         [PrimaryKey("lrn_id")]
         public string LrnId { get; set; }
 

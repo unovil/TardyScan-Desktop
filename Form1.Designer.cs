@@ -23,14 +23,14 @@
         ///  the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            txtBoxName = new TextBox();
-            comboBoxOptions = new ComboBox();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
+            txtBoxSearchTerm = new TextBox();
+            comboBoxSearchOptions = new ComboBox();
+            txtBoxResultName = new TextBox();
+            txtBoxResultSection = new TextBox();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            textBox1 = new TextBox();
+            txtBoxResultLrn = new TextBox();
             dataGridView1 = new DataGridView();
             dateTardy = new DataGridViewTextBoxColumn();
             label4 = new Label();
@@ -39,42 +39,42 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
-            // txtBoxName
+            // txtBoxSearchTerm
             // 
-            txtBoxName.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            txtBoxName.Location = new Point(235, 70);
-            txtBoxName.Name = "txtBoxName";
-            txtBoxName.Size = new Size(230, 38);
-            txtBoxName.TabIndex = 0;
+            txtBoxSearchTerm.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            txtBoxSearchTerm.Location = new Point(235, 70);
+            txtBoxSearchTerm.Name = "txtBoxSearchTerm";
+            txtBoxSearchTerm.Size = new Size(230, 38);
+            txtBoxSearchTerm.TabIndex = 0;
             // 
-            // comboBoxOptions
+            // comboBoxSearchOptions
             // 
-            comboBoxOptions.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxOptions.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            comboBoxOptions.FormattingEnabled = true;
-            comboBoxOptions.Items.AddRange(new object[] { "Last Name", "LRN" });
-            comboBoxOptions.Location = new Point(492, 69);
-            comboBoxOptions.Name = "comboBoxOptions";
-            comboBoxOptions.Size = new Size(148, 39);
-            comboBoxOptions.TabIndex = 1;
+            comboBoxSearchOptions.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxSearchOptions.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            comboBoxSearchOptions.FormattingEnabled = true;
+            comboBoxSearchOptions.Items.AddRange(new object[] { "Last Name", "LRN" });
+            comboBoxSearchOptions.Location = new Point(492, 69);
+            comboBoxSearchOptions.Name = "comboBoxSearchOptions";
+            comboBoxSearchOptions.Size = new Size(148, 39);
+            comboBoxSearchOptions.TabIndex = 1;
             // 
-            // textBox2
+            // txtBoxResultName
             // 
-            textBox2.Enabled = false;
-            textBox2.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox2.Location = new Point(55, 164);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(296, 38);
-            textBox2.TabIndex = 2;
+            txtBoxResultName.Enabled = false;
+            txtBoxResultName.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            txtBoxResultName.Location = new Point(55, 164);
+            txtBoxResultName.Name = "txtBoxResultName";
+            txtBoxResultName.Size = new Size(425, 38);
+            txtBoxResultName.TabIndex = 2;
             // 
-            // textBox3
+            // txtBoxResultSection
             // 
-            textBox3.Enabled = false;
-            textBox3.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox3.Location = new Point(55, 247);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(139, 38);
-            textBox3.TabIndex = 3;
+            txtBoxResultSection.Enabled = false;
+            txtBoxResultSection.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            txtBoxResultSection.Location = new Point(55, 247);
+            txtBoxResultSection.Name = "txtBoxResultSection";
+            txtBoxResultSection.Size = new Size(139, 38);
+            txtBoxResultSection.TabIndex = 3;
             // 
             // label1
             // 
@@ -106,14 +106,14 @@
             label3.TabIndex = 7;
             label3.Text = "LRN";
             // 
-            // textBox1
+            // txtBoxResultLrn
             // 
-            textBox1.Enabled = false;
-            textBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox1.Location = new Point(55, 333);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(139, 38);
-            textBox1.TabIndex = 6;
+            txtBoxResultLrn.Enabled = false;
+            txtBoxResultLrn.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            txtBoxResultLrn.Location = new Point(55, 333);
+            txtBoxResultLrn.Name = "txtBoxResultLrn";
+            txtBoxResultLrn.Size = new Size(139, 38);
+            txtBoxResultLrn.TabIndex = 6;
             // 
             // dataGridView1
             // 
@@ -122,7 +122,7 @@
             dataGridView1.AllowUserToOrderColumns = true;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { dateTardy });
-            dataGridView1.Location = new Point(499, 164);
+            dataGridView1.Location = new Point(517, 164);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 200;
@@ -180,13 +180,13 @@
             Controls.Add(label4);
             Controls.Add(dataGridView1);
             Controls.Add(label3);
-            Controls.Add(textBox1);
+            Controls.Add(txtBoxResultLrn);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(textBox3);
-            Controls.Add(textBox2);
-            Controls.Add(comboBoxOptions);
-            Controls.Add(txtBoxName);
+            Controls.Add(txtBoxResultSection);
+            Controls.Add(txtBoxResultName);
+            Controls.Add(comboBoxSearchOptions);
+            Controls.Add(txtBoxSearchTerm);
             Margin = new Padding(3, 4, 3, 4);
             Name = "FormSearch";
             Text = "Tardy - Search Engine";
@@ -198,14 +198,14 @@
 
         #endregion
 
-        private TextBox txtBoxName;
-        private ComboBox comboBoxOptions;
-        private TextBox textBox2;
-        private TextBox textBox3;
+        private TextBox txtBoxSearchTerm;
+        private ComboBox comboBoxSearchOptions;
+        private TextBox txtBoxResultName;
+        private TextBox txtBoxResultSection;
         private Label label1;
         private Label label2;
         private Label label3;
-        private TextBox textBox1;
+        private TextBox txtBoxResultLrn;
         private DataGridView dataGridView1;
         private DataGridViewTextBoxColumn dateTardy;
         private Label label4;

@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Configuration;
-using Microsoft.VisualBasic.Devices;
-using Supabase.Interfaces;
-using static Postgrest.Constants;
 using TardyQuery.Models;
+using Postgrest.Responses;
+
+using static Postgrest.Constants;
 
 namespace TardyQuery {
 
@@ -32,22 +32,35 @@ namespace TardyQuery {
         }
 
         private async void recordSearch(object sender, EventArgs e) {
-            if (string.IsNullOrWhiteSpace(comboBoxOptions.Text)) {
+            if (string.IsNullOrWhiteSpace(comboBoxSearchOptions.Text)) {
                 MessageBox.Show("Search category is empty!");
                 return;
-            } else if (string.IsNullOrWhiteSpace(txtBoxName.Text)) {
+            }
+            else if (string.IsNullOrWhiteSpace(txtBoxSearchTerm.Text)) {
                 MessageBox.Show("Search term is empty!");
                 return;
             }
 
-            string searchCategory = comboBoxOptions.Text;
-            string searchTerm = txtBoxName.Text;
+            string searchCategory = comboBoxSearchOptions.Text.Trim();
+            string searchTerm = txtBoxSearchTerm.Text;
 
-            var result = await supabase
-              .From<Students>()
-              .Select(x => new object[] { x.TardyDatetimeList })
-              .Filter(x => x.Name, Operator.Contains, searchTerm)
+            ModeledResponse<Student> result = await supabase
+              .From<Student>()
+              .Select(x => new object[] { x.Name, x.Section, x.LrnId, x.TardyDatetimeList })
+              .Filter(x => x.Name, Operator.ILike, searchTerm + ",%")
               .Get();
+
+            if (result == null) {
+                MessageBox.Show("No results found!");
+                return;
+            }
+
+            foreach (Student student in result.Models) {
+                txtBoxResultName.Text = student.Name;
+                txtBoxResultSection.Text = student.Section;
+                txtBoxResultLrn.Text = student.LrnId;
+            }
+
         }
     }
 }
