@@ -1,37 +1,18 @@
-using Microsoft.Extensions.Configuration;
-using TardyQuery.Models;
 using Postgrest.Responses;
-
-using static TardyQuery.GuardChecks.Internet;
-using static Postgrest.Constants;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics;
-using TardyQuery.GuardChecks;
+using TardyQuery.Models;
+using static Postgrest.Constants;
+using static TardyQuery.GuardChecks.Internet;
 
 namespace TardyQuery {
     public partial class FormSearch : Form {
-        public FormSearch() {
-            InitializeComponent();
-        }
+        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public FormSearch() => InitializeComponent();
+        #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         Supabase.Client supabase;
         private void FormSearch_Load(object sender, EventArgs e) {
-            Task supabaseInit = SupabaseInit();
-        }
-
-        private async Task SupabaseInit() {
-            var builder = new ConfigurationBuilder();
-            builder.AddUserSecrets<FormSearch>();
-            var configuration = builder.Build();
-            string url = configuration.GetSection("SUPABASE_URL").Value ?? string.Empty;
-            string? key = configuration.GetSection("SUPABASE_KEY").Value;
-
-            var options = new Supabase.SupabaseOptions {
-                AutoConnectRealtime = true
-            };
-
-            supabase = new Supabase.Client(url, key, options);
-            await supabase.InitializeAsync();
+            Task supabaseInit = new SupabaseFunctions().SupabaseInit(supabase);
         }
 
         private async void recordSearch(object sender, EventArgs e) {
@@ -47,14 +28,14 @@ namespace TardyQuery {
             if (searchCategory == comboBoxSearchOptions.Items[0].ToString()) { // last name
                 result = await supabase
                   .From<Student>()
-                  .Select(x => new object[] { x.Name, x.Section, x.LrnId, x.TardyDatetimeList })
+                  .Select(x => new object[] { x.Name, x.Section, x.LrnId, x.TardyDatetimeList ?? new ArraySegment<DateTime>() })
                   .Filter(x => x.Name, Operator.ILike, "^(" + searchTerm + "),")
                   .Get();
             }
             else if (searchCategory == comboBoxSearchOptions.Items[1].ToString()) { // lrn
                 result = await supabase
                  .From<Student>()
-                 .Select(x => new object[] { x.Name, x.Section, x.LrnId, x.TardyDatetimeList })
+                 .Select(x => new object[] { x.Name, x.Section, x.LrnId, x.TardyDatetimeList ?? new ArraySegment<DateTime>() })
                  .Where(x => x.LrnId == searchTerm)
                  .Get();
             }
@@ -66,7 +47,7 @@ namespace TardyQuery {
             if (string.IsNullOrWhiteSpace(searchTerm)) {
                 MessageBox.Show("Search term is empty!");
                 return;
-            }            
+            }
 
             if (result == null) {
                 MessageBox.Show("Error!");
@@ -89,10 +70,13 @@ namespace TardyQuery {
                 txtBoxResultName.Text = student.Name;
                 txtBoxResultSection.Text = student.Section;
                 txtBoxResultLrn.Text = student.LrnId;
+
+                if (student.TardyDatetimeList is null) { continue; }
                 foreach (DateTime tardyDate in student.TardyDatetimeList) {
                     Debug.Print(tardyDate.ToString());
                 }
             }
         }
+
     }
 }

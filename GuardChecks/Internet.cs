@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 
 namespace TardyQuery.GuardChecks {
-    public class Internet {
-        public static async Task<bool> IsConnectedToInternet(int timeoutMs = 10000, string url = null) {
+    internal class Internet {
+        internal static async Task<bool> IsConnectedToInternet(int timeoutMs = 10000, string url = null) {
             try {
                 url ??= CultureInfo.InstalledUICulture switch { 
                     { Name: var n } when n.StartsWith("fa") => // Iran
