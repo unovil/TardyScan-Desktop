@@ -36,6 +36,7 @@
             label5 = new Label();
             btnSearch = new Button();
             labelSearchOutcome = new Label();
+            btnClear = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvTardy).BeginInit();
             SuspendLayout();
             // 
@@ -155,9 +156,9 @@
             // 
             // btnSearch
             // 
-            btnSearch.Location = new Point(661, 69);
+            btnSearch.Location = new Point(646, 69);
             btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(94, 29);
+            btnSearch.Size = new Size(94, 39);
             btnSearch.TabIndex = 11;
             btnSearch.Text = "Search!";
             btnSearch.UseVisualStyleBackColor = true;
@@ -172,12 +173,23 @@
             labelSearchOutcome.TabIndex = 12;
             labelSearchOutcome.Visible = false;
             // 
+            // btnClear
+            // 
+            btnClear.Location = new Point(135, 69);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(94, 39);
+            btnClear.TabIndex = 13;
+            btnClear.Text = "Clear";
+            btnClear.UseVisualStyleBackColor = true;
+            btnClear.Click += btnClear_Click;
+            // 
             // FormSearch
             // 
             AcceptButton = btnSearch;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(914, 600);
+            Controls.Add(btnClear);
             Controls.Add(labelSearchOutcome);
             Controls.Add(btnSearch);
             Controls.Add(label5);
@@ -215,5 +227,6 @@
         private Label label5;
         private Button btnSearch;
         private Label labelSearchOutcome;
+        private Button btnClear;
     }
 }

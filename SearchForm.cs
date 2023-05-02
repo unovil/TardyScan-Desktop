@@ -51,8 +51,24 @@ namespace TardyQuery {
                 MessageBox.Show("No internet connection!");
                 return;
             }
+            
+            // if supabase is null, wait for a bit before trying again
+            while (supabase == null) {
+                labelSearchOutcome.ForeColor = Color.LightGray;
+                labelSearchOutcome.Text = "Waiting...";
+                labelSearchOutcome.Visible = true;
+                await Task.Delay(2000);
+            }
+            Input_Change(sender, e);
+
+            // check if search term is empty
+            if (string.IsNullOrWhiteSpace(searchTerm)) {
+                MessageBox.Show("Search term is empty!");
+                return;
+            }
 
             // check if search category is empty
+            // if not empty, fetch data
             ModeledResponse<Student> result;
             if (searchCategory == comboBoxSearchOptions.Items[0].ToString()) { // last name
                 result = await supabase
@@ -70,12 +86,6 @@ namespace TardyQuery {
             }
             else {
                 MessageBox.Show("Search category is empty!");
-                return;
-            }
-
-            // check if search term is empty
-            if (string.IsNullOrWhiteSpace(searchTerm)) {
-                MessageBox.Show("Search term is empty!");
                 return;
             }
 
@@ -127,6 +137,22 @@ namespace TardyQuery {
             }
 
             return tardyDateTimeList;
+        }
+
+        private void btnClear_Click(object sender, EventArgs e) {
+            // clear outcome label
+            Input_Change(sender, e);
+
+            // clear results
+            txtBoxResultName.Text = "";
+            txtBoxResultSection.Text = "";
+            txtBoxResultLrn.Text = "";
+            dgvTardy.DataSource = null;
+            dgvTardy.Refresh();
+
+            // clear inputs
+            txtBoxSearchTerm.Text = "";
+            comboBoxSearchOptions.SelectedIndex = -1;
         }
     }
 }
