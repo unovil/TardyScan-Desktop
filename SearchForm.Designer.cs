@@ -46,6 +46,7 @@
             txtBoxSearchTerm.Name = "txtBoxSearchTerm";
             txtBoxSearchTerm.Size = new Size(230, 38);
             txtBoxSearchTerm.TabIndex = 0;
+            txtBoxSearchTerm.TextChanged += Input_Change;
             // 
             // comboBoxSearchOptions
             // 
@@ -57,6 +58,7 @@
             comboBoxSearchOptions.Name = "comboBoxSearchOptions";
             comboBoxSearchOptions.Size = new Size(148, 39);
             comboBoxSearchOptions.TabIndex = 1;
+            comboBoxSearchOptions.TextChanged += Input_Change;
             // 
             // txtBoxResultName
             // 

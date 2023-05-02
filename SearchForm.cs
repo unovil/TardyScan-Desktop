@@ -29,6 +29,12 @@ namespace TardyQuery {
             dgvTardy.Columns["TimeColumn"].DataPropertyName = "TardyTime";
         }
 
+        private void Input_Change(object sender, EventArgs e) {
+            labelSearchOutcome.ForeColor = Color.Black;
+            labelSearchOutcome.Text = "";
+            labelSearchOutcome.Visible = false;
+        }
+
         private async void recordSearch(object sender, EventArgs e) {
             string searchCategory = comboBoxSearchOptions.Text;
             string searchTerm = txtBoxSearchTerm.Text.Trim();
@@ -72,6 +78,13 @@ namespace TardyQuery {
                 labelSearchOutcome.ForeColor = Color.Red;
                 labelSearchOutcome.Text = "Query not found!";
                 labelSearchOutcome.Visible = true;
+
+                // clear everything
+                txtBoxResultName.Text = "";
+                txtBoxResultSection.Text = "";
+                txtBoxResultLrn.Text = "";
+                dgvTardy.DataSource = null;
+                dgvTardy.Refresh();
                 return;
             }
             else {
@@ -106,6 +119,5 @@ namespace TardyQuery {
 
             return tardyDateTimeList;
         }
-
     }
 }
