@@ -8,8 +8,10 @@ namespace TardyQuery {
     public partial class FormSearch : Form {
         public FormSearch() => InitializeComponent();
 
+
         Supabase.Client supabase;
         private void FormSearch_Load(object sender, EventArgs e) {
+            // init supabase
             var supabaseFunctions = new SupabaseFunctions();
             Task<Supabase.Client> supabaseInitTask = Task.Run(async () => await supabaseFunctions.SupabaseInit());
             supabaseInitTask.ContinueWith(task => {
@@ -22,6 +24,7 @@ namespace TardyQuery {
                 }
             }, TaskScheduler.FromCurrentSynchronizationContext());
 
+            // init datagridview columns
             dgvTardy.AutoGenerateColumns = false;
             dgvTardy.Columns.Add("DateColumn", "Tardy Date");
             dgvTardy.Columns["DateColumn"].DataPropertyName = "TardyDate";
@@ -29,21 +32,25 @@ namespace TardyQuery {
             dgvTardy.Columns["TimeColumn"].DataPropertyName = "TardyTime";
         }
 
+        // on change of any input, hide the search outcome label
         private void Input_Change(object sender, EventArgs e) {
             labelSearchOutcome.ForeColor = Color.Black;
             labelSearchOutcome.Text = "";
             labelSearchOutcome.Visible = false;
         }
 
+        // on click of search button
         private async void recordSearch(object sender, EventArgs e) {
             string searchCategory = comboBoxSearchOptions.Text;
             string searchTerm = txtBoxSearchTerm.Text.Trim();
 
+            // check internet connection
             if ((await IsConnectedToInternet()) == false) {
                 MessageBox.Show("No internet connection!");
                 return;
             }
 
+            // check if search category is empty
             ModeledResponse<Student> result;
             if (searchCategory == comboBoxSearchOptions.Items[0].ToString()) { // last name
                 result = await supabase
@@ -64,16 +71,13 @@ namespace TardyQuery {
                 return;
             }
 
+            // check if search term is empty
             if (string.IsNullOrWhiteSpace(searchTerm)) {
                 MessageBox.Show("Search term is empty!");
                 return;
             }
 
-            if (result == null) {
-                MessageBox.Show("Error!");
-                return;
-            }
-
+            // check if query is found
             if (result.Models.Count == 0) {
                 labelSearchOutcome.ForeColor = Color.Red;
                 labelSearchOutcome.Text = "Query not found!";
@@ -93,7 +97,7 @@ namespace TardyQuery {
                 labelSearchOutcome.Visible = true;
             }
 
-
+            // generate results and display
             foreach (Student student in result.Models) {
                 txtBoxResultName.Text = student.Name;
                 txtBoxResultSection.Text = student.Section;
@@ -104,6 +108,7 @@ namespace TardyQuery {
             }
         }
 
+        // convert DateTime[] to List<TardyDateTime>
         private List<TardyDateTime>? GetSeparateTardyDateTimeList(DateTime[]? dateTimeList) {
             List<TardyDateTime> tardyDateTimeList = new List<TardyDateTime>();
             if (dateTimeList is null) { return null; }
@@ -111,6 +116,8 @@ namespace TardyQuery {
                 Debug.Print(tardyDate.ToString());
                 Debug.Print(DateOnly.FromDateTime(tardyDate).ToString());
                 Debug.Print(TimeOnly.FromDateTime(tardyDate).ToString());
+
+                // add to list
                 tardyDateTimeList.Add(new TardyDateTime() {
                     TardyDate = DateOnly.FromDateTime(tardyDate).ToString(),
                     TardyTime = TimeOnly.FromDateTime(tardyDate).ToString()

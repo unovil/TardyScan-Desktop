@@ -2,7 +2,9 @@
 
 namespace TardyQuery.GuardChecks {
     internal class Internet {
-        internal static async Task<bool> IsConnectedToInternet(int timeoutMs = 10000, string url = null) {
+        internal static async Task<bool> IsConnectedToInternet(int timeoutMs = 10000, string? url = null) {
+
+            // try to ping websites
             try {
                 url ??= CultureInfo.InstalledUICulture switch { 
                     { Name: var n } when n.StartsWith("fa") => "http://www.aparat.com", // Iran
