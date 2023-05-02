@@ -28,8 +28,10 @@ namespace TardyQuery {
             dgvTardy.AutoGenerateColumns = false;
             dgvTardy.Columns.Add("DateColumn", "Tardy Date");
             dgvTardy.Columns["DateColumn"].DataPropertyName = "TardyDate";
+            dgvTardy.Columns["DateColumn"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgvTardy.Columns.Add("TimeColumn", "Time");
             dgvTardy.Columns["TimeColumn"].DataPropertyName = "TardyTime";
+            dgvTardy.Columns["TimeColumn"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
         }
 
         // on change of any input, hide the search outcome label
