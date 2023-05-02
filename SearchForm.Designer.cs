@@ -31,13 +31,12 @@
             label2 = new Label();
             label3 = new Label();
             txtBoxResultLrn = new TextBox();
-            dataGridView1 = new DataGridView();
-            dateTardy = new DataGridViewTextBoxColumn();
+            dgvTardy = new DataGridView();
             label4 = new Label();
             label5 = new Label();
             btnSearch = new Button();
             labelSearchOutcome = new Label();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvTardy).BeginInit();
             SuspendLayout();
             // 
             // txtBoxSearchTerm
@@ -116,30 +115,21 @@
             txtBoxResultLrn.Size = new Size(139, 38);
             txtBoxResultLrn.TabIndex = 6;
             // 
-            // dataGridView1
+            // dgvTardy
             // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.AllowUserToOrderColumns = true;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { dateTardy });
-            dataGridView1.Location = new Point(517, 164);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.RowHeadersWidth = 200;
-            dataGridView1.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(350, 312);
-            dataGridView1.TabIndex = 8;
-            // 
-            // dateTardy
-            // 
-            dateTardy.HeaderText = "Tardy Date";
-            dateTardy.MinimumWidth = 6;
-            dateTardy.Name = "dateTardy";
-            dateTardy.ReadOnly = true;
-            dateTardy.Resizable = DataGridViewTriState.False;
-            dateTardy.Width = 125;
+            dgvTardy.AllowUserToAddRows = false;
+            dgvTardy.AllowUserToDeleteRows = false;
+            dgvTardy.AllowUserToResizeColumns = false;
+            dgvTardy.AllowUserToResizeRows = false;
+            dgvTardy.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvTardy.Location = new Point(517, 164);
+            dgvTardy.Name = "dgvTardy";
+            dgvTardy.ReadOnly = true;
+            dgvTardy.RowHeadersWidth = 30;
+            dgvTardy.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dgvTardy.RowTemplate.Height = 29;
+            dgvTardy.Size = new Size(350, 312);
+            dgvTardy.TabIndex = 8;
             // 
             // label4
             // 
@@ -189,7 +179,7 @@
             Controls.Add(btnSearch);
             Controls.Add(label5);
             Controls.Add(label4);
-            Controls.Add(dataGridView1);
+            Controls.Add(dgvTardy);
             Controls.Add(label3);
             Controls.Add(txtBoxResultLrn);
             Controls.Add(label2);
@@ -202,7 +192,7 @@
             Name = "FormSearch";
             Text = "Tardy - Search Engine";
             Load += FormSearch_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvTardy).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -217,8 +207,7 @@
         private Label label2;
         private Label label3;
         private TextBox txtBoxResultLrn;
-        private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn dateTardy;
+        private DataGridView dgvTardy;
         private Label label4;
         private Label label5;
         private Button btnSearch;

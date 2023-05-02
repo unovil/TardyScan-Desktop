@@ -2,7 +2,8 @@
 
 namespace TardyQuery {
     public class SupabaseFunctions {
-        public async Task SupabaseInit(Supabase.Client supabase) {
+        public async Task<Supabase.Client> SupabaseInit() {
+            Supabase.Client supabase;
             var builder = new ConfigurationBuilder();
             builder.AddUserSecrets<FormSearch>();
             var configuration = builder.Build();
@@ -15,6 +16,7 @@ namespace TardyQuery {
 
             supabase = new Supabase.Client(url, key, options);
             await supabase.InitializeAsync();
+            return supabase;
         }
     }
 }

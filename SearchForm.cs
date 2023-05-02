@@ -6,18 +6,32 @@ using static TardyQuery.GuardChecks.Internet;
 
 namespace TardyQuery {
     public partial class FormSearch : Form {
-        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public FormSearch() => InitializeComponent();
-        #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         Supabase.Client supabase;
         private void FormSearch_Load(object sender, EventArgs e) {
-            Task supabaseInit = new SupabaseFunctions().SupabaseInit(supabase);
+            var supabaseFunctions = new SupabaseFunctions();
+            Task<Supabase.Client> supabaseInitTask = Task.Run(async () => await supabaseFunctions.SupabaseInit());
+            supabaseInitTask.ContinueWith(task => {
+                if (task.IsCompletedSuccessfully) {
+                    supabase = task.Result;
+                }
+                else {
+                    MessageBox.Show("Some error occured!");
+                    return;
+                }
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+
+            dgvTardy.AutoGenerateColumns = false;
+            dgvTardy.Columns.Add("DateColumn", "Tardy Date");
+            dgvTardy.Columns["DateColumn"].DataPropertyName = "TardyDate";
+            dgvTardy.Columns.Add("TimeColumn", "Time");
+            dgvTardy.Columns["TimeColumn"].DataPropertyName = "TardyTime";
         }
 
         private async void recordSearch(object sender, EventArgs e) {
-            string searchCategory = comboBoxSearchOptions.Text.Trim();
-            string searchTerm = txtBoxSearchTerm.Text;
+            string searchCategory = comboBoxSearchOptions.Text;
+            string searchTerm = txtBoxSearchTerm.Text.Trim();
 
             if ((await IsConnectedToInternet()) == false) {
                 MessageBox.Show("No internet connection!");
@@ -28,8 +42,8 @@ namespace TardyQuery {
             if (searchCategory == comboBoxSearchOptions.Items[0].ToString()) { // last name
                 result = await supabase
                   .From<Student>()
-                  .Select(x => new object[] { x.Name, x.Section, x.LrnId, x.TardyDatetimeList ?? new ArraySegment<DateTime>() })
-                  .Filter(x => x.Name, Operator.ILike, "^(" + searchTerm + "),")
+                  .Select(x => new object[] { x.Name, x.Section, x.LrnId, x.TardyDatetimeList })
+                  .Filter(x => x.Name, Operator.ILike, searchTerm + "%")
                   .Get();
             }
             else if (searchCategory == comboBoxSearchOptions.Items[1].ToString()) { // lrn
@@ -66,16 +80,31 @@ namespace TardyQuery {
                 labelSearchOutcome.Visible = true;
             }
 
+
             foreach (Student student in result.Models) {
                 txtBoxResultName.Text = student.Name;
                 txtBoxResultSection.Text = student.Section;
                 txtBoxResultLrn.Text = student.LrnId;
 
-                if (student.TardyDatetimeList is null) { continue; }
-                foreach (DateTime tardyDate in student.TardyDatetimeList) {
-                    Debug.Print(tardyDate.ToString());
-                }
+                dgvTardy.DataSource = GetSeparateTardyDateTimeList(student.TardyDatetimeList);
+                dgvTardy.Refresh();
             }
+        }
+
+        private List<TardyDateTime>? GetSeparateTardyDateTimeList(DateTime[]? dateTimeList) {
+            List<TardyDateTime> tardyDateTimeList = new List<TardyDateTime>();
+            if (dateTimeList is null) { return null; }
+            foreach (DateTime tardyDate in dateTimeList) {
+                Debug.Print(tardyDate.ToString());
+                Debug.Print(DateOnly.FromDateTime(tardyDate).ToString());
+                Debug.Print(TimeOnly.FromDateTime(tardyDate).ToString());
+                tardyDateTimeList.Add(new TardyDateTime() {
+                    TardyDate = DateOnly.FromDateTime(tardyDate).ToString(),
+                    TardyTime = TimeOnly.FromDateTime(tardyDate).ToString()
+                });
+            }
+
+            return tardyDateTimeList;
         }
 
     }
